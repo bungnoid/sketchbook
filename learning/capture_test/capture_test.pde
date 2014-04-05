@@ -1,6 +1,4 @@
 // Learning Processing
-// Daniel Shiffman
-// http://www.learningprocessing.com
 
 import processing.video.*;
 int videoScale = 8;
