@@ -3,47 +3,35 @@
 
 import processing.video.*;
 
-Capture video;
+Capture cam;
 
-float a;
+float alpha = 20;
 
 void setup(){
   
-  frameRate(12);
-  size(720,576,P2D);
-  video = new Capture(this,width,height,30);
-  
-  if (video.available()) {
-    video.read();
-  }
-  
-  pushMatrix();
-  scale(-1,1);
-  translate(-width, 0);
-  
-  image(video,0,0);
-  
-  popMatrix();
+  size(640,480);
+  String[] cameras = Capture.list();
+  cam = new Capture(this, cameras[0]);
+  cam.start();
   
 }
 
 void draw(){
 
-  if (video.available()) {
-    video.read();
+  if (cam.available()) {
+    cam.read();
   }
   
-  a = 20; // random(20,3);
-  tint(255,a);
+  tint(255,500,50,alpha);
   
   pushMatrix();
   scale(-1,1);
   translate(-width, 0);
   
-  image(video,0,0);
+  image(cam,0,0);
   
   popMatrix();
-  //blend(video, 0, 0, width, height, 0, 0, width, height, EXCLUSION);
+  //blend(cam, 0, 0, width, height, 0, 0, width, height, EXCLUSION);
   //filter(INVERT);
 
 }

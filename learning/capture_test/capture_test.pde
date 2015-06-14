@@ -1,24 +1,27 @@
 // Learning Processing
 
 import processing.video.*;
-int videoScale = 8;
+int videoScale = 10;
 int cols, rows;
 
-Capture video;
+Capture cam;
 
 void setup() {
-  size(640,480,P2D);
+  size(640,480);
   cols = width/videoScale;
   rows = height/videoScale;
-  video = new Capture(this,cols,rows,30);
+  
+  String[] cameras = Capture.list();
+  cam = new Capture(this,cols,rows,cameras[0]);
+  cam.start();
+  
 }
 
 void draw() {
-  // Read image from the camera
-  if (video.available()) {
-    video.read();
+  if (cam.available()) {
+    cam.read();
   }
-  video.loadPixels();
+  cam.loadPixels();
   
   // Begin loop for columns
   for (int i = 0; i < cols; i++) {
@@ -28,8 +31,9 @@ void draw() {
       // Where are we, pixel-wise?
       int x = i*videoScale;
       int y = j*videoScale;
+      
       // Looking up the appropriate color in the pixel array
-      color c = video.pixels[i + j*video.width];
+      color c = cam.pixels[i + j*cam.width];
       fill(c);
       stroke(0);
       rect(x,y,videoScale,videoScale);
